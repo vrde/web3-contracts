@@ -8,6 +8,7 @@ npx degit https://github.com/vrde/hardhat-typescript-template\#main contracts
 
 ## What's included
 
+- CI with GitHub actions.
 - TypeScript configuration.
 - Sample `Storage` contract and tests.
 - Tasks:

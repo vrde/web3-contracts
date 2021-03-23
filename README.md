@@ -3,7 +3,7 @@
 # HardHat TypeScript Template
 
 ```bash
-degit https://github.com/vrde/hardhat-typescript-template
+npx degit https://github.com/vrde/hardhat-typescript-template\#main contracts
 ```
 
 ## What's included

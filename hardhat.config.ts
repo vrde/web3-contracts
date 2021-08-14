@@ -2,11 +2,11 @@ import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
 
 import "@typechain/hardhat";
+import "@nomiclabs/hardhat-ethers";
 
 import "hardhat-gas-reporter";
 import { HardhatUserConfig } from "hardhat/types";
 
-import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-etherscan";
 
 import("./tasks").catch((e) => console.log("Cannot load tasks", e.toString()));

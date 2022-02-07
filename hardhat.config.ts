@@ -38,9 +38,6 @@ const config: HardhatUserConfig = {
       url: `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [RINKEBY_PRIVATE_KEY],
     },
-    coverage: {
-      url: "http://127.0.0.1:8555", // Coverage launches its own ganache-cli client
-    },
   },
   etherscan: {
     // Your API key for Etherscan

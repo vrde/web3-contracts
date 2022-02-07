@@ -21,27 +21,29 @@
   },
   "homepage": "https://github.com/hardhat-typescript-template/contracts#readme",
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@nomiclabs/hardhat-etherscan": "^2.1.6",
-    "@typechain/hardhat": "^2.3.0",
-    "@typechain/truffle-v5": "^5.1.0",
-    "@types/chai": "^4.2.22",
+    "@ethersproject/providers": "^5.5.3",
+    "@nomiclabs/hardhat-ethers": "^2.0.4",
+    "@nomiclabs/hardhat-etherscan": "^3.0.0",
+    "@typechain/ethers-v5": "^9.0.0",
+    "@typechain/hardhat": "^4.0.0",
+    "@typechain/truffle-v5": "^7.0.0",
+    "@types/chai": "^4.3.0",
     "@types/chai-as-promised": "^7.1.4",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^16.10.2",
-    "chai": "^4.3.4",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.15",
+    "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.0",
     "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.4.7",
-    "hardhat": "^2.6.5",
-    "hardhat-gas-reporter": "^1.0.4",
-    "ts-node": "^10.2.1",
-    "typechain": "^5.1.2",
-    "typescript": "^4.4.3"
+    "ethers": "^5.5.4",
+    "hardhat": "^2.8.3",
+    "hardhat-gas-reporter": "^1.0.7",
+    "solidity-coverage": "^0.7.18",
+    "ts-node": "^10.4.0",
+    "typechain": "^7.0.0",
+    "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.3.2",
-    "@typechain/ethers-v5": "^7.1.2"
+    "@openzeppelin/contracts": "^4.4.2"
   }
 }

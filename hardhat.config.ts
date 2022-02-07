@@ -8,11 +8,9 @@ import "hardhat-gas-reporter";
 import { HardhatUserConfig } from "hardhat/types";
 
 import "@nomiclabs/hardhat-etherscan";
+import "solidity-coverage";
 
 import("./tasks").catch((e) => console.log("Cannot load tasks", e.toString()));
-
-// TODO: reenable solidity-coverage when it works
-// import "solidity-coverage";
 
 const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
 const RINKEBY_PRIVATE_KEY =
@@ -53,6 +51,9 @@ const config: HardhatUserConfig = {
     currency: "USD",
     gasPrice: 100,
     coinmarketcap: COINMARKETCAP_KEY,
+  },
+  typechain: {
+    outDir: "./typechain",
   },
 };
 

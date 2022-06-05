@@ -1,5 +1,3 @@
-pnpm-lock.yaml
-package-lock.json
 deployments
 node_modules/
 cache/

@@ -11,6 +11,7 @@ npx degit https://github.com/vrde/hardhat-typescript-template\#main contracts
 - CI with GitHub actions.
 - TypeScript configuration.
 - Sample `Storage` contract and tests.
+- Gas reporter, try `GAS_REPORTER=1 pnpm test` or, if you use NPM, `GAS_REPORTER=1 npm test`.
 - Tasks:
   - `deploy`
   - `store` to store a value

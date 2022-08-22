@@ -20,4 +20,10 @@ task("deploy", "Deploy Storage", async (_, hre) => {
 
   console.log("Configuration file in ./artifacts/network.json");
   await writeFile("./artifacts/network.json", JSON.stringify(config, null, 2));
+
+  await hre.run("verify", {
+    address: storageContract.address,
+    contract: "contracts/Storage.sol:Storage",
+    //constructorArgsParams: []
+  });
 });

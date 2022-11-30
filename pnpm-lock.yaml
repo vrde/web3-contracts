@@ -20,6 +20,7 @@ specifiers:
   hardhat: ^2.12.2
   hardhat-gas-reporter: ^1.0.9
   solidity-coverage: ^0.8.2
+  solidity-docgen: 0.6.0-beta.31
   ts-node: ^10.9.1
   typechain: ^8.1.1
   typescript: ^4.9.3
@@ -46,6 +47,7 @@ devDependencies:
   hardhat: 2.12.2_2dtigtkb225m7ii7q45utxqwgi
   hardhat-gas-reporter: 1.0.9_hardhat@2.12.2
   solidity-coverage: 0.8.2_hardhat@2.12.2
+  solidity-docgen: 0.6.0-beta.31_hardhat@2.12.2
   ts-node: 10.9.1_wup25etrarvlqkprac7h35hj7u
   typechain: 8.1.1_typescript@4.9.3
   typescript: 4.9.3
@@ -7703,6 +7705,10 @@ packages:
       - debug
     dev: true
 
+  /solidity-ast/0.4.38:
+    resolution: {integrity: sha512-e7gT6g8l8M2rAzH648QA3/IihCNy/anFoWyChVD+T+zfX4FjXbT8AO2DB3wG1iEmIBib9/+vD+GvTElWWpdw+w==}
+    dev: true
+
   /solidity-coverage/0.8.2_hardhat@2.12.2:
     resolution: {integrity: sha512-cv2bWb7lOXPE9/SSleDO6czkFiMHgP4NXPj+iW9W7iEKLBk7Cj0AGBiNmGX3V1totl9wjPrT0gHmABZKZt65rQ==}
     hasBin: true
@@ -7732,6 +7738,16 @@ packages:
       web3-utils: 1.7.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /solidity-docgen/0.6.0-beta.31_hardhat@2.12.2:
+    resolution: {integrity: sha512-MFQ1PkdyHx1I2DvJhPM88hEfsf0CAg1iwUUEJ2tJPRtK4ITGorZ2ld4Vjs3g0zznTmzVrFMSWrZBaxuWwFQXeA==}
+    peerDependencies:
+      hardhat: ^2.8.0
+    dependencies:
+      handlebars: 4.7.7
+      hardhat: 2.12.2_2dtigtkb225m7ii7q45utxqwgi
+      solidity-ast: 0.4.38
     dev: true
 
   /source-map-resolve/0.5.3:

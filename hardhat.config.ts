@@ -1,6 +1,8 @@
 import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
 
+import "solidity-docgen";
+
 import "@typechain/hardhat";
 import "@nomiclabs/hardhat-ethers";
 
@@ -63,6 +65,9 @@ const config: HardhatUserConfig = {
   typechain: {
     outDir: "./typechain",
   },
+  // See config options at
+  // https://github.com/OpenZeppelin/solidity-docgen/blob/master/src/config.ts
+  docgen: {},
 };
 
 export default config;

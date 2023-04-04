@@ -1,0 +1,30 @@
+:root{
+  --size: 16px;
+  --max-width: 100rem;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: var(--size);
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html, body{
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #ccc;
+    }
+}

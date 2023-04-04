@@ -10,6 +10,7 @@ import { Web3Modal } from "@web3modal/react";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { mainnet, goerli } from "wagmi/chains";
 import { PROJECT_ID } from "./config";
+import dynamic from "next/dynamic";
 
 const chains = [mainnet, goerli];
 
@@ -23,7 +24,7 @@ const wagmiClient = createClient({
 });
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <WagmiConfig client={wagmiClient}>
@@ -34,3 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+export default dynamic(() => Promise.resolve(App), {
+  ssr: false,
+});

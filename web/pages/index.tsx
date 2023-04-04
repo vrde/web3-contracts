@@ -1,6 +1,8 @@
 import ConnectWallet from "@/components/ConnectWallet";
 import Head from "next/head";
-import styles from "@/styles/Base.module.css";
+import styles from "@styles/Base.module.css";
+import Read from "@components/Read";
+import ContractsProvider from "@components/ContractsProvider";
 
 export default function Home() {
   return (
@@ -20,6 +22,9 @@ export default function Home() {
           <h1>NextJS Web3 Template</h1>
           <p>Yet another web3 template.</p>
           <ConnectWallet />
+          <ContractsProvider>
+            <Read />
+          </ContractsProvider>
         </div>
       </main>
     </>

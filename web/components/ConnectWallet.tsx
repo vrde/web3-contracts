@@ -1,7 +1,7 @@
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount, useNetwork } from "wagmi";
 
-export default function App() {
+export default () => {
   const { address } = useAccount();
   const { chain, chains } = useNetwork();
   const { open } = useWeb3Modal();
@@ -19,4 +19,4 @@ export default function App() {
       <button onClick={() => open()}>Open</button>
     </>
   );
-}
+};

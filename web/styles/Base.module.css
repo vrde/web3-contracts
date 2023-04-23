@@ -1,5 +1,5 @@
 .row {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 1rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem;
 }

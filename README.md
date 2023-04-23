@@ -1,9 +1,9 @@
 ![Test workflow](https://github.com/vrde/hardhat-typescript-template/actions/workflows/node.yml/badge.svg)
 
-# HardHat TypeScript Template
+# Web3 template
 
 ```bash
-npx degit https://github.com/vrde/hardhat-typescript-template\#main contracts
+npx tiged https://github.com/vrde/web3-template\#main
 ```
 
 ## What's included

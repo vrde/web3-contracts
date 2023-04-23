@@ -1,0 +1,12 @@
+.env
+.openzeppelin
+.vscode/
+artifacts/
+build/
+cache/
+coverage*
+deployments
+node_modules/
+pnpm-lock.yaml
+typechain/
+dist/

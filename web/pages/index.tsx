@@ -19,6 +19,13 @@ export default function Home() {
           <p>Yet another web3 template.</p>
           <ConnectWallet />
         </div>
+
+        <div className={styles.row}>
+          <h2>Storage contract</h2>
+
+          <p>Address: {}</p>
+          <p>Current value: x</p>
+        </div>
       </main>
     </>
   );

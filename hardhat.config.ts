@@ -1,16 +1,16 @@
+import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-etherscan";
+import "@typechain/hardhat";
 import { config as dotEnvConfig } from "dotenv";
-dotEnvConfig();
-
+import "hardhat-gas-reporter";
+import { extendEnvironment } from "hardhat/config";
+import { HardhatUserConfig } from "hardhat/types";
+import "solidity-coverage";
 import "solidity-docgen";
 
-import "@typechain/hardhat";
-import "@nomiclabs/hardhat-ethers";
+import { HREContracts } from "./lib/types";
 
-import "hardhat-gas-reporter";
-import { HardhatUserConfig } from "hardhat/types";
-
-import "@nomiclabs/hardhat-etherscan";
-import "solidity-coverage";
+dotEnvConfig();
 
 import("./tasks").catch((e) => console.log("Cannot load tasks", e.toString()));
 
@@ -23,6 +23,17 @@ const KOVAN_PRIVATE_KEY =
   "0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3"; // well known private key
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 const COINMARKETCAP_KEY = process.env.COINMARKETCAP_KEY || "";
+
+declare module "hardhat/types/runtime" {
+  export interface HardhatRuntimeEnvironment {
+    contracts: HREContracts;
+  }
+}
+
+extendEnvironment((hre) => {
+  const contracts = new HREContracts(hre);
+  hre.contracts = contracts;
+});
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",

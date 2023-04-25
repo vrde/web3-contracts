@@ -1,4 +1,4 @@
-![Test workflow](https://github.com/vrde/hardhat-typescript-template/actions/workflows/node.yml/badge.svg)
+![Test workflow](https://github.com/vrde/web3-template/actions/workflows/node.yml/badge.svg)
 
 # Web3 template
 
@@ -8,6 +8,7 @@ npx tiged https://github.com/vrde/web3-template\#main
 
 ## What's included
 
+- NextJS web app
 - CI with GitHub actions.
 - TypeScript configuration.
 - Sample `Storage` contract and tests.

@@ -14,14 +14,6 @@ export type MyContracts = Storage | Counter;
 export type MyFactories = Storage__factory | Counter__factory;
 export type MyContractsNames = "Storage" | "Counter";
 
-type NameToContract = {
-  [K in MyContractsNames]: K extends "Storage"
-    ? Storage
-    : K extends "Counter"
-    ? Counter
-    : never;
-};
-
 type NameToFactory = {
   [K in MyContractsNames]: K extends "Storage"
     ? Storage__factory
@@ -35,34 +27,19 @@ const contractToFactory = {
   Counter: Counter__factory,
 } as const;
 
-const factoryToName: { [key: string]: MyContractsNames } = {
-  Storage__factory: "Storage",
-  Counter__factory: "Counter",
-};
-
 type FactoryToContract<T extends MyFactories> = T extends Storage__factory
   ? Storage
   : T extends Counter__factory
   ? Counter
   : never;
 
-type ContractToFactory<T extends MyContracts> = T extends Storage
-  ? Storage__factory
-  : T extends Counter
-  ? Counter__factory
-  : never;
-
-type NetworkConfig = {
+export type NetworkConfig = {
   [key in MyContractsNames]?: {
     address: string;
     blockNumber: number;
     blockHash: string;
   };
 };
-
-interface FactoryConstructor<T> {
-  new (signer: SignerWithAddress): T;
-}
 
 type DeployParameters<T extends MyFactories> = Parameters<T["deploy"]>;
 
@@ -188,5 +165,38 @@ export class HREContracts extends Contracts {
     }
 
     return contract;
+  }
+}
+
+export class MemoryContracts extends Contracts {
+  networkConfig: NetworkConfig;
+  chainId: number;
+  signer: SignerWithAddress;
+
+  constructor(
+    networkConfig: NetworkConfig,
+    chainId: number,
+    signer: SignerWithAddress
+  ) {
+    super();
+    this.networkConfig = networkConfig;
+    this.chainId = chainId;
+    this.signer = signer;
+  }
+
+  async loadNetworkConfig(): Promise<NetworkConfig> {
+    return this.networkConfig;
+  }
+
+  async storeNetworkConfig(network: NetworkConfig): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
+  async getChainId(): Promise<number> {
+    return this.chainId;
+  }
+
+  async getSigner() {
+    return this.signer;
   }
 }

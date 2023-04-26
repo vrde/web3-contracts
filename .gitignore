@@ -1,3 +1,6 @@
+deployments/31337.*
+deployments/666666.*
+
 docs/
 node_modules/
 cache/

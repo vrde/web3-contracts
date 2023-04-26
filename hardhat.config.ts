@@ -8,7 +8,7 @@ import { HardhatUserConfig } from "hardhat/types";
 import "solidity-coverage";
 import "solidity-docgen";
 
-import { HREContracts } from "./lib/types";
+import { HREContractManager } from "./lib/HREContractManager";
 
 dotEnvConfig();
 
@@ -26,12 +26,12 @@ const COINMARKETCAP_KEY = process.env.COINMARKETCAP_KEY || "";
 
 declare module "hardhat/types/runtime" {
   export interface HardhatRuntimeEnvironment {
-    contracts: HREContracts;
+    contracts: HREContractManager;
   }
 }
 
 extendEnvironment((hre) => {
-  const contracts = new HREContracts(hre);
+  const contracts = new HREContractManager(hre);
   hre.contracts = contracts;
 });
 

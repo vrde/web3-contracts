@@ -1,84 +1,120 @@
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { Signer } from "ethers";
 
-import { MyFactories } from "./types";
+import {
+  Counter,
+  Counter__factory,
+  Storage,
+  Storage__factory,
+} from "../typechain";
 
-//export function deploy<T>() {}
+export type MyContracts = Storage | Counter;
+export type MyFactories = Storage__factory | Counter__factory;
+export type MyContractsNames = "Storage" | "Counter";
 
-export function store<T>() {}
+export type Contracts = {
+  storage: Storage;
+  counter: Counter;
+};
 
-export function load<T>() {}
+export type NameToContractType = {
+  [K in keyof Contracts]: MyContractsNames;
+};
 
-/*
-export async function _deployContract(
-  hre: HardhatRuntimeEnvironment,
-  contractName: ContractNames,
-  verify = false,
-  args: any[] = [],
-  libraries = ({} = {}),
-  proxy = false
-) {
-  const factory = await hre.ethers.getContractFactory(contractName, {
-    libraries,
-  });
-  console.log("Deploy:", contractName);
-  const { chainId } = await hre.ethers.provider.getNetwork();
-  let contract: Contract;
-  if (proxy) {
-    contract = await hre.upgrades.deployProxy(factory, args);
-  } else {
-    contract = await factory.deploy(...args);
-  }
-  console.log("Contract address:", contract.address);
-  console.log(`Wait ${WAIT_BLOCKS} blocks`);
-  const receipt = await contract.deployTransaction.wait(WAIT_BLOCKS);
+const nameToContract: NameToContractType = {
+  storage: "Storage",
+  counter: "Counter",
+} as const;
 
-  // Save the address in the config json file
-  const configPath = getConfigPath(chainId);
-  let contracts: NeokingdomNetworkFile = {};
-  try {
-    contracts = JSON.parse(await readFile(configPath, "utf8"));
-  } catch (e) {
-    if ((e as any).code !== "ENOENT") {
-      throw e;
-    }
-  }
-  contracts[contractName] = {
-    address: contract.address,
-    blockNumber: receipt.blockNumber,
-    blockHash: receipt.blockHash,
+export type NameToFactory = {
+  [K in MyContractsNames]: K extends "Storage"
+    ? Storage__factory
+    : K extends "Counter"
+    ? Counter__factory
+    : never;
+};
+
+const contractToFactory = {
+  Storage: Storage__factory,
+  Counter: Counter__factory,
+} as const;
+
+export type FactoryToContract<T extends MyFactories> =
+  T extends Storage__factory
+    ? Storage
+    : T extends Counter__factory
+    ? Counter
+    : never;
+
+export type NetworkConfig = {
+  [key in MyContractsNames]?: {
+    address: string;
+    blockNumber: number;
+    blockHash: string;
   };
-  await writeFile(configPath, JSON.stringify(contracts, null, 2));
-  console.log(
-    `Address ${contract.address} stored for ${contractName} at ${configPath}`
-  );
+};
 
-  // Save constructor arguments for verification
-  await writeFile(
-    `./deployments/${chainId}.${contractName}.arguments.json`,
-    JSON.stringify(args)
-  );
+export type DeployParameters<T extends MyFactories> = Parameters<T["deploy"]>;
 
-  if (verify) {
-    console.log("Wait 2 blocks");
-    await contract.deployTransaction.wait(2);
-    console.log("Verify contract");
-    try {
-      await hre.run("verify", {
-        address: contract.address,
-        constructorArgs: `deployments/${chainId}.${contractName}.arguments.json`,
-        contract: `contracts/${contractName}.sol:${contractName}`,
-      });
-    } catch (e) {
-      console.error(e);
+export abstract class ContractManager {
+  abstract getChainId(): Promise<number>;
+
+  abstract getSigner(): Promise<Signer>;
+
+  abstract loadNetworkConfig(): Promise<NetworkConfig>;
+
+  abstract storeNetworkConfig(network: NetworkConfig): Promise<void>;
+
+  async getAddress(name: MyContractsNames): Promise<string> {
+    const network = await this.loadNetworkConfig();
+    const config = network[name];
+
+    if (config === undefined) {
+      throw new Error(`Cannot find contract ${name}`);
     }
+
+    return config.address;
   }
 
-  return contract;
-}
-*/
+  async deploy<T extends MyContractsNames>(
+    name: T,
+    ...args: DeployParameters<NameToFactory[T]>
+  ): Promise<FactoryToContract<NameToFactory[T]>> {
+    const Factory = contractToFactory[name];
+    const signer = await this.getSigner();
+    const factory = new Factory(signer);
+    // @ts-expect-error TS2556 - A spread argument must either have a tuple type or be passed to a rest parameter.
+    const contract = await factory.deploy(...args);
+    const receipt = await contract.deployTransaction.wait(1);
+    const network = await this.loadNetworkConfig();
+    network[name] = {
+      address: contract.address,
+      blockNumber: receipt.blockNumber,
+      blockHash: receipt.blockHash,
+    };
+    await this.storeNetworkConfig(network);
+    return contract as FactoryToContract<NameToFactory[T]>;
+  }
 
-//
-//
-//
-//
+  async load<T extends MyContractsNames>(
+    name: T
+  ): Promise<FactoryToContract<NameToFactory[T]>> {
+    const Factory = contractToFactory[name];
+    const address = await this.getAddress(name);
+    const signer = await this.getSigner();
+    return Factory.connect(address, signer) as FactoryToContract<
+      NameToFactory[T]
+    >;
+  }
+
+  async loadAll() {
+    const contracts = {};
+    let key: keyof Contracts;
+    for (key in nameToContract) {
+      const name = nameToContract[key];
+      const contract = await this.load(name);
+      // @ts-ignore
+      contracts[key] = contract;
+    }
+    return contracts as Contracts;
+  }
+}

@@ -1,4 +1,4 @@
-import { NetworkConfig } from "../lib/types";
+import { NetworkConfig } from "../lib/contracts";
 
 declare global {
   namespace NodeJS {

@@ -8,6 +8,8 @@ import { goerli, mainnet } from "wagmi/chains";
 
 import { PROJECT_ID } from "@/lib/config";
 
+import ContractsProvider from "@/components/ContractsProvider";
+
 const chains = [mainnet, goerli];
 
 const { provider } = configureChains(chains, [w3mProvider({ projectId: PROJECT_ID })]);
@@ -22,7 +24,9 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        <Component {...pageProps} />
+        <ContractsProvider>
+          <Component {...pageProps} />
+        </ContractsProvider>
       </WagmiConfig>
 
       <Web3Modal projectId={PROJECT_ID} ethereumClient={ethereumClient} />

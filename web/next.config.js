@@ -6,6 +6,7 @@ const networkConfig = JSON.parse(readFileSync(path, "utf8"));
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ["../lib"],
   env: {
     NETWORK_CONFIG: networkConfig,
   },

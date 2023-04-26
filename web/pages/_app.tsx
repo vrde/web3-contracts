@@ -6,11 +6,12 @@ import dynamic from "next/dynamic";
 import { WagmiConfig, configureChains, createClient } from "wagmi";
 import { goerli, mainnet } from "wagmi/chains";
 
+import { localhost } from "@/lib/chains";
 import { PROJECT_ID } from "@/lib/config";
 
 import ContractsProvider from "@/components/ContractsProvider";
 
-const chains = [mainnet, goerli];
+const chains = [localhost, mainnet, goerli];
 
 const { provider } = configureChains(chains, [w3mProvider({ projectId: PROJECT_ID })]);
 const wagmiClient = createClient({

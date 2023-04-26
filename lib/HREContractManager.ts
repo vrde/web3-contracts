@@ -52,6 +52,10 @@ export class HREContractManager extends ContractManager {
     return signer;
   }
 
+  async getProvider() {
+    return this.hre.ethers.getDefaultProvider();
+  }
+
   async deploy<T extends MyContractsNames>(
     name: T,
     ...args: DeployParameters<NameToFactory[T]>

@@ -1,3 +1,4 @@
+import { Provider } from "@ethersproject/providers";
 import { Signer } from "ethers";
 
 import {
@@ -60,9 +61,19 @@ export abstract class ContractManager {
 
   abstract getSigner(): Promise<Signer>;
 
+  abstract getProvider(): Promise<Provider>;
+
   abstract loadNetworkConfig(): Promise<NetworkConfig>;
 
   abstract storeNetworkConfig(network: NetworkConfig): Promise<void>;
+
+  async getSignerOrProvider() {
+    try {
+      return await this.getSigner();
+    } catch (e) {
+      return await this.getProvider();
+    }
+  }
 
   async getAddress(name: MyContractsNames): Promise<string> {
     const network = await this.loadNetworkConfig();
@@ -100,8 +111,9 @@ export abstract class ContractManager {
   ): Promise<FactoryToContract<NameToFactory[T]>> {
     const Factory = contractToFactory[name];
     const address = await this.getAddress(name);
-    const signer = await this.getSigner();
-    return Factory.connect(address, signer) as FactoryToContract<
+    const signerOrProvider = await this.getSignerOrProvider();
+    console.log("porco dio", signerOrProvider);
+    return Factory.connect(address, signerOrProvider) as FactoryToContract<
       NameToFactory[T]
     >;
   }

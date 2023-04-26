@@ -1,6 +1,6 @@
 import { MemoryContractManager } from "@/../lib/MemoryContractManager";
 import { Contracts } from "@/../lib/contracts";
-import { useAccount, useDisconnect, useNetwork, useSigner } from "wagmi";
+import { useAccount, useDisconnect, useNetwork, useProvider, useSigner } from "wagmi";
 
 import { useEffect, useState } from "react";
 
@@ -11,12 +11,18 @@ export function useContracts() {
   const { chain } = useNetwork();
   const { data: signer } = useSigner();
   const { disconnect } = useDisconnect();
+  const provider = useProvider();
 
   const [contracts, setContracts] = useState<Contracts | null>(null);
 
   useEffect(() => {
-    if (address && signer && chain && chain.id) {
-      const mcm = new MemoryContractManager(NETWORK_CONFIG, chain.id, signer);
+    if (provider) {
+      const mcm = new MemoryContractManager(
+        NETWORK_CONFIG,
+        // FIXME: not sure why I need to do this
+        signer ? signer : undefined,
+        provider,
+      );
 
       const loadContracts = async () => {
         const loadedContracts = await mcm.loadAll();
@@ -25,7 +31,7 @@ export function useContracts() {
 
       loadContracts().catch(console.error);
     }
-  }, [address, signer, chain?.id, disconnect]);
+  }, [address, provider, signer, chain?.id, disconnect]);
 
   return contracts;
 }

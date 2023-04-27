@@ -112,7 +112,6 @@ export abstract class ContractManager {
     const Factory = contractToFactory[name];
     const address = await this.getAddress(name);
     const signerOrProvider = await this.getSignerOrProvider();
-    console.log("porco dio", signerOrProvider);
     return Factory.connect(address, signerOrProvider) as FactoryToContract<
       NameToFactory[T]
     >;

@@ -1,13 +1,10 @@
-import { useContractsContext } from "@/contexts/ContractsContext";
 import styles from "@/styles/Base.module.css";
 import Head from "next/head";
 
-import { NETWORK_CONFIG } from "@/lib/config";
-
 import ConnectWallet from "@/components/ConnectWallet";
+import Storage from "@/components/Storage";
 
 export default function Home() {
-  const contracts = useContractsContext();
   return (
     <>
       <Head>
@@ -25,11 +22,7 @@ export default function Home() {
         </div>
 
         <div className={styles.row}>
-          <h2>Storage contract</h2>
-
-          <p>Address: {NETWORK_CONFIG.Storage?.address}</p>
-          <p>Address: {contracts?.storage.address}</p>
-          <p>Current value: x</p>
+          <Storage />
         </div>
       </main>
     </>

@@ -27,7 +27,7 @@ contract Storage {
      * @param num The number to store.
      */
     function store(uint256 num) public {
-        require(msg.sender == _owner, "Sender is not owner");
+        // require(msg.sender == _owner, "Sender is not owner");
         number = num;
         emit Store(msg.sender, num);
     }

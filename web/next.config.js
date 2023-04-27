@@ -1,6 +1,7 @@
 const { readFileSync } = require("fs");
 
-const path = process.env.SMART_CONTRACT_PATH;
+const chainId = process.env.NEXT_PUBLIC_CHAIN_ID;
+const path = `../deployments/${chainId}.network.json`;
 const networkConfig = JSON.parse(readFileSync(path, "utf8"));
 
 /** @type {import('next').NextConfig} */

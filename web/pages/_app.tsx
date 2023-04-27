@@ -7,11 +7,11 @@ import { WagmiConfig, configureChains, createClient } from "wagmi";
 import { goerli, mainnet } from "wagmi/chains";
 
 import { localhost } from "@/lib/chains";
-import { PROJECT_ID } from "@/lib/config";
+import { CHAIN_ID, PROJECT_ID } from "@/lib/config";
 
 import ContractsProvider from "@/components/ContractsProvider";
 
-const chains = [localhost, mainnet, goerli];
+const chains = [localhost, mainnet, goerli].filter(({ id }) => id === CHAIN_ID);
 
 const { provider } = configureChains(chains, [w3mProvider({ projectId: PROJECT_ID })]);
 const wagmiClient = createClient({

@@ -24,6 +24,7 @@ export function useContracts() {
         provider,
       );
 
+      console.log("update useContracts", provider);
       const loadContracts = async () => {
         const loadedContracts = await mcm.loadAll();
         setContracts(loadedContracts);

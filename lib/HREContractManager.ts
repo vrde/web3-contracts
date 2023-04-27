@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "fs/promises";
+import { extendEnvironment } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import {
@@ -9,6 +10,17 @@ import {
   NameToFactory,
   NetworkConfig,
 } from "./contracts";
+
+declare module "hardhat/types/runtime" {
+  export interface HardhatRuntimeEnvironment {
+    contracts: HREContractManager;
+  }
+}
+
+extendEnvironment((hre) => {
+  const contracts = new HREContractManager(hre);
+  hre.contracts = contracts;
+});
 
 export class HREContractManager extends ContractManager {
   hre: HardhatRuntimeEnvironment;

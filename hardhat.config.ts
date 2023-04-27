@@ -3,16 +3,16 @@ import "@nomiclabs/hardhat-etherscan";
 import "@typechain/hardhat";
 import { config as dotEnvConfig } from "dotenv";
 import "hardhat-gas-reporter";
-import { extendEnvironment } from "hardhat/config";
 import { HardhatUserConfig } from "hardhat/types";
 import "solidity-coverage";
 import "solidity-docgen";
 
-import { HREContractManager } from "./lib/HREContractManager";
-
-dotEnvConfig();
-
+// Extend HRE with ContractManager
+import("./lib/HREContractManager").catch((e) =>
+  console.log("Cannot load HREContractManager", e.toString())
+);
 import("./tasks").catch((e) => console.log("Cannot load tasks", e.toString()));
+dotEnvConfig();
 
 const INFURA_API_KEY = process.env.INFURA_API_KEY || "";
 const RINKEBY_PRIVATE_KEY =
@@ -23,17 +23,6 @@ const KOVAN_PRIVATE_KEY =
   "0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3"; // well known private key
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 const COINMARKETCAP_KEY = process.env.COINMARKETCAP_KEY || "";
-
-declare module "hardhat/types/runtime" {
-  export interface HardhatRuntimeEnvironment {
-    contracts: HREContractManager;
-  }
-}
-
-extendEnvironment((hre) => {
-  const contracts = new HREContractManager(hre);
-  hre.contracts = contracts;
-});
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -75,6 +64,7 @@ const config: HardhatUserConfig = {
   },
   typechain: {
     outDir: "./typechain",
+    discriminateTypes: true,
   },
   // See config options at
   // https://github.com/OpenZeppelin/solidity-docgen/blob/master/src/config.ts

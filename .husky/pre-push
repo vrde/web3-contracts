@@ -3,5 +3,3 @@
 
 npx pretty-quick --staged
 npm test
-cd web
-npx lint-staged
